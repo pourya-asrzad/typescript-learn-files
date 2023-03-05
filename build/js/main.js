@@ -1,61 +1,67 @@
 "use strict";
-let stringArray = ["one", "two", "three"];
-let guitars = ["Strat", 'Les Paul', 1212];
-let mixedDate = ["ABC", 2023, false];
-// stringArray[0]=15 we can not do this 
-stringArray[0] = "number";
-// stringArray.push(42) we can't do this
-stringArray.push("42");
-guitars[0] = 1948; // it can be ok
-// guitars.unshift(true) we can't fo this
-guitars.unshift('jim');
-// stringArray =guitars error!
-guitars = stringArray; // ++
-let emptyArray = [];
-let bands = [];
-bands.push('dfdf'); //++
-//  bands.push(2)  Error!
-//Tuple
-let myTuple = ['dave', 12, false];
-let mixed = ['dave', 12, false];
-mixed = myTuple; //++
-//  myTuple =mixed  Error!
-myTuple[1] = 42;
-//Objects
-let myObj;
-myObj = [];
-console.log(typeof myObj);
-myObj = bands;
-myObj = {};
-const exampelObj = {
-    p1: 'david',
-    p2: false
+//Literal types
+let userName;
+userName = 'parsa';
+//functions
+const add = (a, b) => {
+    return a + b;
 };
-exampelObj.p2 = false;
-exampelObj.p2 = false;
-let evh = {
-    name: 'eddie',
-    active: false,
-    album: [1212, "fgg"]
+const logMsg = (message) => {
+    console.log(message);
 };
-let JP = {
-    name: 'Pouria',
-    album: ["1212", "fgg"]
+logMsg('Hello?');
+logMsg(add(2, 3));
+let subtract = function (c, d) {
+    return c - d;
 };
-const greetGuitarist = (guitars) => {
-    if (guitars.name) {
-        return `Hello ${guitars.name.toUpperCase()}!`;
+// interface mathFunction{
+//     (a:number,b:number ):number
+// }
+let multiple = function (c, d) {
+    return c * d;
+};
+logMsg(multiple(2, 2));
+//optional parameters
+const addAll = (a, b, c) => {
+    if (typeof c !== 'undefined') {
+        return a + b + c;
     }
-    return ' Hello';
+    return a + b;
 };
-console.log(greetGuitarist(JP));
-//Enums
-var Grade;
-(function (Grade) {
-    Grade[Grade["U"] = 1] = "U";
-    Grade[Grade["D"] = 2] = "D";
-    Grade[Grade["C"] = 3] = "C";
-    Grade[Grade["B"] = 4] = "B";
-    Grade[Grade["A"] = 5] = "A";
-})(Grade || (Grade = {}));
-console.log(Grade.U);
+const sumAll = (a = 10, b, c = 2) => {
+    return a + b + c;
+};
+logMsg(addAll(2, 3, 2));
+logMsg(addAll(2, 3));
+logMsg(sumAll(2, 3));
+logMsg(sumAll(undefined, 3));
+//Rest Parameters
+const total = (...nums) => {
+    return nums.reduce((prev, curr) => prev + curr);
+};
+// logMsg(total(1,2,3,8))
+const createError = (errorMsg) => {
+    throw new Error(errorMsg);
+};
+const infinite = () => {
+    let i = 1;
+    while (true) {
+        i++;
+        if (i > 100)
+            break;
+    }
+};
+//use of the never type
+const numberOrstring = (value) => {
+    if (typeof value === 'string') {
+        return "string";
+    }
+    if (isNumber(value)) {
+        return "number";
+    }
+    return createError('This should never happend!');
+};
+// /custom type guard
+const isNumber = (value) => {
+    return typeof value === 'number' ? true : false;
+};

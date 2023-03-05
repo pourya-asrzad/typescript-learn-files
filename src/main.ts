@@ -1,104 +1,103 @@
-let stringArray =["one","two","three"]
+// Type Aliases
+type stringOrNumber  =string|number;
+type stringOrNumberArray  =(string|number)[];
 
-let guitars =["Strat",'Les Paul',1212]
-
-let mixedDate=["ABC",2023,false]
-
-// stringArray[0]=15 we can not do this 
-stringArray[0]= "number"
-// stringArray.push(42) we can't do this
-stringArray.push("42")
-
-guitars[0]=1948 // it can be ok
-
-
-// guitars.unshift(true) we can't fo this
-
-guitars.unshift('jim')
-
-// stringArray =guitars error!
- guitars =stringArray // ++
-
- let emptyArray =[]
-
- let bands:string[]=[]
-
- bands.push('dfdf')//++
-//  bands.push(2)  Error!
-
-
-//Tuple
-let myTuple:[string,number,boolean]=['dave',12,false]
-
-let mixed =['dave',12,false]
-
-mixed =myTuple //++
-
-//  myTuple =mixed  Error!
-
-myTuple[1]=42
-
-
-
-//Objects
-let myObj :object;
-myObj=[]
-
-console.log(typeof myObj);
-myObj =bands
-myObj={}
-
-
-const exampelObj={
-    p1:'david',
-    p2:false
-}
-
-exampelObj.p2 =false;
-exampelObj.p2 =false;
-
-
-interface Guitarist{
-name?:string,
-active?:boolean,//? mean optionall
-album:(string|number)[]
-}
-
-
-let evh:Guitarist={
-    name:'eddie',
-    active:false,
-    album:[1212,"fgg"]
-}
-
-
-
-let JP:Guitarist={
-    name:'Pouria',
-    album:["1212","fgg"]
-}
-
-const greetGuitarist=(guitars:Guitarist)=>{
-    if(guitars.name){
-        return `Hello ${guitars.name.toUpperCase()}!`
+type Guitarist={
+    name?:string,
+    active?:boolean,//? mean optionall
+    album:stringOrNumberArray
     }
 
-        return' Hello'
+ type UserId =stringOrNumber   
 
-    }
+ //Literal types
 
-console.log(greetGuitarist(JP));
+ let userName :'Pouria'|'parsa'|'golam'
 
+ userName ='parsa'
 
-//Enums
+ //functions
+ const add =(a:number,b:number):number=>{
+    return a+b
+ }
 
+ const logMsg =(message:any):void=>{
+    console.log(message);
+ }
 
-enum Grade{
-    U=1,
-    D,
-    C,
-    B,
-    A
+logMsg('Hello?')
+logMsg(add(2,3))
+
+let subtract=function(c:number,d:number):number{
+    return c-d
 }
 
-console.log(Grade.U);
+type mathFunction=(a:number,b:number)=>number
+// interface mathFunction{
+//     (a:number,b:number ):number
+// }
+
+let multiple:mathFunction=function(c,d){
+    return c*d
+}
+
+logMsg(multiple(2,2))
+
+
+//optional parameters
+const addAll=(a:number,b:number,c?:number):number=>{
+if(typeof c !== 'undefined'){
+    return a+b+c
+
+}
+return a+b
+}
+
+const sumAll=(a:number=10,b:number,c:number=2):number=>{
+    return a+b+c
+    }
+
+    logMsg(addAll(2,3,2))
+    logMsg(addAll(2,3))
+    logMsg(sumAll(2,3))
+    logMsg(sumAll(undefined,3))
+
+
+    //Rest Parameters
+    const total=(...nums:number[]):number=>{
+        return nums.reduce((prev,curr)=>prev+curr)
+    }
+
+    // logMsg(total(1,2,3,8))
+
+
+    const createError=(errorMsg:string):never=>{
+        throw new Error(errorMsg)
+    }
+
+
+    const infinite=()=>{
+        let i: number=1;
+        while(true){
+            i++
+            if(i>100)break
+        }
+    }
+
+
+//use of the never type
+    const numberOrstring =(value:number|string):string=>{
+        if (typeof value ==='string'){
+            return "string"
+        }
+        if (isNumber(value)){
+            return "number"
+        }
+        return createError('This should never happend!')
+    }
+
+
+    // /custom type guard
+    const isNumber =(value:any):boolean=>{
+        return typeof value ==='number'?true:false
+    }
