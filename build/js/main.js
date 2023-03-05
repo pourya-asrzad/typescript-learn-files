@@ -1,8 +1,17 @@
 "use strict";
-let username = 'Pouria Asrzad';
-console.log(username);
-let a = 12;
-let b = 6;
-let c = 2;
-console.log(a / b);
-console.log(a * b);
+let myName = "Poueia";
+let meaningOfLife;
+let isLoading;
+let album;
+let golam;
+golam = 10;
+meaningOfLife = 22;
+isLoading = true;
+album = true;
+const sum = (a, b) => {
+    return a + b;
+};
+console.log(sum(1, 2));
+let postId;
+let isActive;
+let re = /\w+/g;
