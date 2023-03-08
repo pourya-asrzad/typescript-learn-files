@@ -1,103 +1,43 @@
-// Type Aliases
-type stringOrNumber  =string|number;
-type stringOrNumberArray  =(string|number)[];
+type One =string
+type Two =string;
+type Three ='hello'
 
-type Guitarist={
-    name?:string,
-    active?:boolean,//? mean optionall
-    album:stringOrNumberArray
-    }
+//convert to more or ledd specific
+let a: One ='hello';
+let b =a as Two //less specific
+let c= a as Three // more specific
 
- type UserId =stringOrNumber   
 
- //Literal types
+let d =<One>'word'
+let e =<string | number>'hello'
 
- let userName :'Pouria'|'parsa'|'golam'
 
- userName ='parsa'
-
- //functions
- const add =(a:number,b:number):number=>{
-    return a+b
- }
-
- const logMsg =(message:any):void=>{
-    console.log(message);
- }
-
-logMsg('Hello?')
-logMsg(add(2,3))
-
-let subtract=function(c:number,d:number):number{
-    return c-d
+const addOrConcat =(a:number,b:number,c:'add'|'concat'):number|string=>{
+    if(c=='add')return a+b
+    return ''+a+b
 }
 
-type mathFunction=(a:number,b:number)=>number
-// interface mathFunction{
-//     (a:number,b:number ):number
-// }
-
-let multiple:mathFunction=function(c,d){
-    return c*d
-}
-
-logMsg(multiple(2,2))
 
 
-//optional parameters
-const addAll=(a:number,b:number,c?:number):number=>{
-if(typeof c !== 'undefined'){
-    return a+b+c
-
-}
-return a+b
-}
-
-const sumAll=(a:number=10,b:number,c:number=2):number=>{
-    return a+b+c
-    }
-
-    logMsg(addAll(2,3,2))
-    logMsg(addAll(2,3))
-    logMsg(sumAll(2,3))
-    logMsg(sumAll(undefined,3))
+let myVal : string =addOrConcat(2,2,'concat') as string
 
 
-    //Rest Parameters
-    const total=(...nums:number[]):number=>{
-        return nums.reduce((prev,curr)=>prev+curr)
-    }
-
-    // logMsg(total(1,2,3,8))
+// Be careful! TS sees no problem - but a string i returned
+let yourVal : number =addOrConcat(2,2,'concat') as number
 
 
-    const createError=(errorMsg:string):never=>{
-        throw new Error(errorMsg)
-    }
+
+// 10 as string;
+// 10 as unknown as string 
 
 
-    const infinite=()=>{
-        let i: number=1;
-        while(true){
-            i++
-            if(i>100)break
-        }
-    }
+//The DOM
+const img = document.querySelector('img')!
+const myImg = document.getElementById('#img') as HTMLImageElement
+
+const YourImg = <HTMLImageElement>document.getElementById('#img') 
 
 
-//use of the never type
-    const numberOrstring =(value:number|string):string=>{
-        if (typeof value ==='string'){
-            return "string"
-        }
-        if (isNumber(value)){
-            return "number"
-        }
-        return createError('This should never happend!')
-    }
+img.src
 
-
-    // /custom type guard
-    const isNumber =(value:any):boolean=>{
-        return typeof value ==='number'?true:false
-    }
+myImg.src
