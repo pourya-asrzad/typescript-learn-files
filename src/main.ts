@@ -1,104 +1,43 @@
-let stringArray =["one","two","three"]
+type One =string
+type Two =string;
+type Three ='hello'
 
-let guitars =["Strat",'Les Paul',1212]
-
-let mixedDate=["ABC",2023,false]
-
-// stringArray[0]=15 we can not do this 
-stringArray[0]= "number"
-// stringArray.push(42) we can't do this
-stringArray.push("42")
-
-guitars[0]=1948 // it can be ok
+//convert to more or ledd specific
+let a: One ='hello';
+let b =a as Two //less specific
+let c= a as Three // more specific
 
 
-// guitars.unshift(true) we can't fo this
-
-guitars.unshift('jim')
-
-// stringArray =guitars error!
- guitars =stringArray // ++
-
- let emptyArray =[]
-
- let bands:string[]=[]
-
- bands.push('dfdf')//++
-//  bands.push(2)  Error!
+let d =<One>'word'
+let e =<string | number>'hello'
 
 
-//Tuple
-let myTuple:[string,number,boolean]=['dave',12,false]
-
-let mixed =['dave',12,false]
-
-mixed =myTuple //++
-
-//  myTuple =mixed  Error!
-
-myTuple[1]=42
-
-
-
-//Objects
-let myObj :object;
-myObj=[]
-
-console.log(typeof myObj);
-myObj =bands
-myObj={}
-
-
-const exampelObj={
-    p1:'david',
-    p2:false
-}
-
-exampelObj.p2 =false;
-exampelObj.p2 =false;
-
-
-interface Guitarist{
-name?:string,
-active?:boolean,//? mean optionall
-album:(string|number)[]
-}
-
-
-let evh:Guitarist={
-    name:'eddie',
-    active:false,
-    album:[1212,"fgg"]
+const addOrConcat =(a:number,b:number,c:'add'|'concat'):number|string=>{
+    if(c=='add')return a+b
+    return ''+a+b
 }
 
 
 
-let JP:Guitarist={
-    name:'Pouria',
-    album:["1212","fgg"]
-}
-
-const greetGuitarist=(guitars:Guitarist)=>{
-    if(guitars.name){
-        return `Hello ${guitars.name.toUpperCase()}!`
-    }
-
-        return' Hello'
-
-    }
-
-console.log(greetGuitarist(JP));
+let myVal : string =addOrConcat(2,2,'concat') as string
 
 
-//Enums
+// Be careful! TS sees no problem - but a string i returned
+let yourVal : number =addOrConcat(2,2,'concat') as number
 
 
-enum Grade{
-    U=1,
-    D,
-    C,
-    B,
-    A
-}
 
-console.log(Grade.U);
+// 10 as string;
+// 10 as unknown as string 
+
+
+//The DOM
+const img = document.querySelector('img')!
+const myImg = document.getElementById('#img') as HTMLImageElement
+
+const YourImg = <HTMLImageElement>document.getElementById('#img') 
+
+
+img.src
+
+myImg.src
