@@ -1,137 +1,65 @@
-class Coder{
+// index Signetures
 
-secondLang!:string
+// interface TransactionObj{
+//    readonly [index:string]:number
+// }
 
-    constructor(public readonly name:string,
-       public music :string,
-       private age:number,
-       protected lang:string ='js'){
-        this.name =name
-        this.music =music
-        this.age =age
-        this.lang=lang
-    }
-
-    public getAge(){
-        return `Hello , I'm ${this.age}`
-    }
+interface TransactionObj{
+    readonly [index:string]:number // you can't assign anything when you use this
+    Pizza:number,
+    Books: number,
+    Job:number
 }
 
-const Pouria = new Coder('Pouria','asr',22)
-
-console.log(Pouria.getAge());
-// console.log(Pouria.lang);
-
-class WebDev extends Coder{
-    constructor(public computer :string,
-       name:string,
-        music :string,
-        age:number){
-        super(name,music,age)
-this.computer=computer
-    }
-
-
-    public getLang(){
-        return `I write ${this.lang} `
-    }
+const todaysTransactions: TransactionObj={
+    Pizza:-10,
+    Books:-5,
+    Job:55
 }
 
-const Sara =new WebDev('Mac','Sare','asr',25)
-console.log(Sara.getLang());
-// console.log(Sara.lang);
+console.log(todaysTransactions.Pizza);
+console.log(todaysTransactions['Pizza']);
 
 
-interface Musician{
+let prop :string ='Pizza';
+
+console.log(todaysTransactions[prop]);
+
+
+const todaysNet=(transactions:TransactionObj):number=>{
+    let total =0
+    for(const transaction in transactions){
+
+        total += transactions[transaction]
+    
+    }
+
+    return total
+}
+
+console.log(todaysNet(todaysTransactions));
+/////////////////////
+
+interface Student {
+// [key:string]:string|number|number[]|undefined
 name:string,
-instrument:string,
-play(action:string):string
-}
-
-class Guitarist implements Musician{
-    name: string
-    instrument: string
-
-    constructor(name:string,instrument:string){
-        this.name=name
-        this.instrument=instrument
-    }
-
-    play(action: string) {
-        return `${this.name} ${action} the ${this.instrument} `
-    }
-}
-
-const Page =new Guitarist('Pouria','guitar')
-console.log(Page.play('strums'));
-
-
-
-/////////////////////////////
-
-class Peeps{
-    static count :number =0
-    static Getcount():number{
-        return Peeps.count
-    }
-
-
-    public id:number
-
-    constructor(public name :string){
-        this.name=name
-        this.id= ++Peeps.count
-    }
-
-
-
+GPA:number,
+clsses?:number[]
 }
 
 
-const john = new Peeps('john')
-const Steve = new Peeps('Steve')
-const PouriaAsrzad = new Peeps('Pouria')
-
-
-console.log(PouriaAsrzad.id);
-console.log(Steve.id);
-console.log(john.id);
-
-//
-console.log(Peeps.count);
-
-
-//////////////////////////'
-
-
-class Bands{
-    private dataState :string[]
-    constructor (){
-        this.dataState=[]
-    }
-
-
-    public get data():string[]{
-        return this.dataState
-    }
-
-
-    public set data(value:string[]){
-        if(Array.isArray(value)&&value.every(el=>typeof el === 'string')){
-            this.dataState =value
-            return
-        }else throw new Error('Param is not an array of strings')
-    }
-
+const student :Student={
+    name:"Doug",
+    GPA:3.5,
+    clsses:[100,500]
 }
 
+// console.log(student.test);
 
-const MyBands =new Bands()
-MyBands.data =['Golam','Led zed']
-console.log(MyBands.data);
+for (const key in student){
+    console.log(`${key}: ${student[key as keyof Student]}`);
+}
 
-MyBands.data =[...MyBands.data,'Hoshang']
-console.log(MyBands.data);
-
-
-// MyBands.data =['Van Halen',222]
+Object.keys(student).map(key=>{
+console.log(student[key as keyof typeof student]);
+})
