@@ -1,65 +1,116 @@
-// index Signetures
+const echo =<T>(arg:T):T=>arg
 
-// interface TransactionObj{
-//    readonly [index:string]:number
-// }
 
-interface TransactionObj{
-    readonly [index:string]:number // you can't assign anything when you use this
-    Pizza:number,
-    Books: number,
-    Job:number
+const isObj=<T>(arg:T):boolean=>{
+    return (typeof arg ==='object' && !Array.isArray(arg) && arg !== null)
 }
 
-const todaysTransactions: TransactionObj={
-    Pizza:-10,
-    Books:-5,
-    Job:55
+console.log(isObj(true));
+console.log(isObj("true"));
+console.log(isObj([true,2,3]));
+console.log(isObj({tr:2}));
+console.log(isObj(null));
+
+
+const isTrue=<T>(arg:T):{arg:T,is:boolean}=>{
+    if(Array.isArray(arg)&& !arg.length){
+        return {arg,is:false}
+    }
+    if(isObj(arg) && !Object.keys(arg as keyof T).length){
+        return {arg,is:false}
+    }
+    return{arg,is:!!arg}
 }
 
-console.log(todaysTransactions.Pizza);
-console.log(todaysTransactions['Pizza']);
+console.log(isTrue(false));
+console.log(isTrue(0));
+console.log(isTrue(true));
+console.log(isTrue(1));
+console.log(isTrue("false"));
+console.log(isTrue(""));
+console.log(isTrue(null));
+console.log(isTrue(undefined));
+console.log(isTrue({}));
+console.log(isTrue({name:"Pouria"}));
+console.log(isTrue([]));
+console.log(isTrue([1,2,3]));
+console.log(isTrue(NaN));
+console.log(isTrue(-0));
+
+interface BoolCheck<T>{
+    value:T,
+    is:boolean
+}
 
 
-let prop :string ='Pizza';
+const checkBoolValue=<T>(arg:T):BoolCheck<T>=>{
+    if(Array.isArray(arg)&& !arg.length){
+        return {value:arg,is:false}
+    }
+    if(isObj(arg) && !Object.keys(arg as keyof T).length){
+        return {value:arg,is:false}
+    }
+    return{value:arg,is:!!arg}
+}
 
-console.log(todaysTransactions[prop]);
+
+interface HasID{
+    id:number
+}
 
 
-const todaysNet=(transactions:TransactionObj):number=>{
-    let total =0
-    for(const transaction in transactions){
+const processUser =<T extends HasID>(user:T):T=>{
+    return user
+}
 
-        total += transactions[transaction]
-    
+
+console.log(processUser({id:1,name:"Pouria"}))
+
+
+const getUsersProperty =<T extends HasID,K extends keyof T>(users:T[],key:K):T[K][]=>{
+    return users.map(user=>user[key])
+}
+
+const usersArray=[
+    {
+        id:1,
+        name:"Pouria",
+        email:"poriaasrzad@gmail.com",
+        address:"behdari"
+    },
+    {
+        id:2,
+        name:"Parsa",
+        email:"parsaasrzad@gmail.com",
+        address:"behdari"
+    }
+]
+
+console.log(getUsersProperty(usersArray,"address"));
+
+
+
+class StateObject<T>{
+    private data:T
+
+    constructor(value:T){
+        this.data =value
     }
 
-    return total
+
+    get state():T{
+return this.data
+}
+set state(value:T){
+    this.data =value
+}
+ 
+
 }
 
-console.log(todaysNet(todaysTransactions));
-/////////////////////
-
-interface Student {
-// [key:string]:string|number|number[]|undefined
-name:string,
-GPA:number,
-clsses?:number[]
-}
+const store =new StateObject("PouriaAsr")
+console.log(store.state);
+store.state="Parsa"
 
 
-const student :Student={
-    name:"Doug",
-    GPA:3.5,
-    clsses:[100,500]
-}
-
-// console.log(student.test);
-
-for (const key in student){
-    console.log(`${key}: ${student[key as keyof Student]}`);
-}
-
-Object.keys(student).map(key=>{
-console.log(student[key as keyof typeof student]);
-})
+const mtState =new StateObject<(string|number|boolean)[]>([15])
