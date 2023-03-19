@@ -1,85 +1,79 @@
 "use strict";
-class Coder {
-    constructor(name, music, age, lang = 'js') {
-        this.name = name;
-        this.music = music;
-        this.age = age;
-        this.lang = lang;
-        this.name = name;
-        this.music = music;
-        this.age = age;
-        this.lang = lang;
+const echo = (arg) => arg;
+const isObj = (arg) => {
+    return (typeof arg === 'object' && !Array.isArray(arg) && arg !== null);
+};
+console.log(isObj(true));
+console.log(isObj("true"));
+console.log(isObj([true, 2, 3]));
+console.log(isObj({ tr: 2 }));
+console.log(isObj(null));
+const isTrue = (arg) => {
+    if (Array.isArray(arg) && !arg.length) {
+        return { arg, is: false };
     }
-    getAge() {
-        return `Hello , I'm ${this.age}`;
+    if (isObj(arg) && !Object.keys(arg).length) {
+        return { arg, is: false };
     }
-}
-const Pouria = new Coder('Pouria', 'asr', 22);
-console.log(Pouria.getAge());
-// console.log(Pouria.lang);
-class WebDev extends Coder {
-    constructor(computer, name, music, age) {
-        super(name, music, age);
-        this.computer = computer;
-        this.computer = computer;
+    return { arg, is: !!arg };
+};
+console.log(isTrue(false));
+console.log(isTrue(0));
+console.log(isTrue(true));
+console.log(isTrue(1));
+console.log(isTrue("false"));
+console.log(isTrue(""));
+console.log(isTrue(null));
+console.log(isTrue(undefined));
+console.log(isTrue({}));
+console.log(isTrue({ name: "Pouria" }));
+console.log(isTrue([]));
+console.log(isTrue([1, 2, 3]));
+console.log(isTrue(NaN));
+console.log(isTrue(-0));
+const checkBoolValue = (arg) => {
+    if (Array.isArray(arg) && !arg.length) {
+        return { value: arg, is: false };
     }
-    getLang() {
-        return `I write ${this.lang} `;
+    if (isObj(arg) && !Object.keys(arg).length) {
+        return { value: arg, is: false };
     }
-}
-const Sara = new WebDev('Mac', 'Sare', 'asr', 25);
-console.log(Sara.getLang());
-class Guitarist {
-    constructor(name, instrument) {
-        this.name = name;
-        this.instrument = instrument;
+    return { value: arg, is: !!arg };
+};
+const processUser = (user) => {
+    return user;
+};
+console.log(processUser({ id: 1, name: "Pouria" }));
+const getUsersProperty = (users, key) => {
+    return users.map(user => user[key]);
+};
+const usersArray = [
+    {
+        id: 1,
+        name: "Pouria",
+        email: "poriaasrzad@gmail.com",
+        address: "behdari"
+    },
+    {
+        id: 2,
+        name: "Parsa",
+        email: "parsaasrzad@gmail.com",
+        address: "behdari"
     }
-    play(action) {
-        return `${this.name} ${action} the ${this.instrument} `;
+];
+console.log(getUsersProperty(usersArray, "address"));
+class StateObject {
+    constructor(value) {
+        this.data = value;
     }
-}
-const Page = new Guitarist('Pouria', 'guitar');
-console.log(Page.play('strums'));
-/////////////////////////////
-class Peeps {
-    static Getcount() {
-        return Peeps.count;
+    get state() {
+        return this.data;
     }
-    constructor(name) {
-        this.name = name;
-        this.name = name;
-        this.id = ++Peeps.count;
-    }
-}
-Peeps.count = 0;
-const john = new Peeps('john');
-const Steve = new Peeps('Steve');
-const PouriaAsrzad = new Peeps('Pouria');
-console.log(PouriaAsrzad.id);
-console.log(Steve.id);
-console.log(john.id);
-//
-console.log(Peeps.count);
-//////////////////////////'
-class Bands {
-    constructor() {
-        this.dataState = [];
-    }
-    get data() {
-        return this.dataState;
-    }
-    set data(value) {
-        if (Array.isArray(value) && value.every(el => typeof el === 'string')) {
-            this.dataState = value;
-            return;
-        }
-        else
-            throw new Error('Param is not an array of strings');
+    set state(value) {
+        this.data = value;
     }
 }
-const MyBands = new Bands();
-MyBands.data = ['Golam', 'Led zed'];
-console.log(MyBands.data);
-MyBands.data = [...MyBands.data, 'Hoshang'];
-console.log(MyBands.data);
-// MyBands.data =['Van Halen',222]
+const store = new StateObject("PouriaAsr");
+console.log(store.state);
+store.state = "Parsa";
+const mtState = new StateObject([15]);
